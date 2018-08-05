@@ -23,11 +23,19 @@ namespace BestBuyCorporate
 
             Creator creator = new Creator(connStr);
             Lawyer lawyer = new Lawyer();
+            Reader reader = new Reader(connStr);
 
             if(lawyer.GetYesNo("Would you like to category to the merchendise to sell?"))
             {
-                string category = lawyer.GetResponse("What would you like to call this category to be added to the databse?");
+                string category = lawyer.GetResponse("What would you like to call this category to be added to the database?");
+                while(reader.DoesCategoryExist(category))
+                {
+                    Console.WriteLine("Sorry that category already exist try again?");
+                    category = lawyer.GetResponse("What would you like to call this category to be added to the database?");
+                }
                 creator.AddCategory(category);
+                
+                
             }
 
             if(lawyer.GetYesNo("Would you like to add a new product?"))

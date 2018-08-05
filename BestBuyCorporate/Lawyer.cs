@@ -87,6 +87,6 @@ namespace BestBuyCorporate
             }
             return false;
 
-        }
+        }        
     }
 }

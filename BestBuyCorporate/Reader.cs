@@ -79,6 +79,30 @@ namespace BestBuyCorporate
             }
         }
 
+        public bool DoesCategoryExist(string category)
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.CommandText = "SELECT Count(c.name) AS result FROM categories c WHERE name = @category;";
+                cmd.Parameters.AddWithValue("category", category);
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+
+                int count = int.Parse(dr[0].ToString());
+                if(count == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
 
     }
 }
