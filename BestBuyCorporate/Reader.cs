@@ -60,6 +60,25 @@ namespace BestBuyCorporate
             }
         }
 
+        public decimal GetPrice(string product)
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.CommandText = "SELECT Price FROM products as c WHERE c.Name = @product;";
+                cmd.Parameters.AddWithValue("product", product);
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+
+                int Price = int.Parse(dr[0].ToString());
+                return Price;
+            }
+        }
+
 
     }
 }
