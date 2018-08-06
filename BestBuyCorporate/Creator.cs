@@ -23,8 +23,8 @@ namespace BestBuyCorporate
             {
                 conn.Open();
 
-                MySqlCommand cmd = new MySqlCommand();
-                cmd.CommandText = "INSERT INTO category (Name) VALUES(@name);";
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "INSERT INTO categories (Name) VALUES(@name);";
                 cmd.Parameters.AddWithValue("name", name);
                 cmd.ExecuteNonQuery();
             }
@@ -39,7 +39,7 @@ namespace BestBuyCorporate
             {
                 conn.Open();
 
-                MySqlCommand cmd = new MySqlCommand();
+                MySqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = "INSERT INTO products (Name, Price, CategoryID) VALUES(@name, @price, @categoryID);";
                 cmd.Parameters.AddWithValue("name", name);
                 cmd.Parameters.AddWithValue("price", price);
@@ -57,7 +57,7 @@ namespace BestBuyCorporate
             {
                 conn.Open();
 
-                MySqlCommand cmd = new MySqlCommand();
+                MySqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = "INSERT INTO sales (ProductID, Quantity, CategoryID) VALUES(@productID, @quantity, @price, @date);";
                 cmd.Parameters.AddWithValue("productId", productID);
                 cmd.Parameters.AddWithValue("quantity", quantity);

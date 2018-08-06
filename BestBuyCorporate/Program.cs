@@ -25,7 +25,7 @@ namespace BestBuyCorporate
             Lawyer lawyer = new Lawyer();
             Reader reader = new Reader(connStr);
 
-            if(lawyer.GetYesNo("Would you like to category to the merchendise to sell?"))
+            if(lawyer.GetYesNo("Would you like to add a category to the merchendise to sell?"))
             {
                 string category = lawyer.GetResponse("What would you like to call this category to be added to the database?");
                 while(reader.DoesCategoryExist(category))
@@ -54,6 +54,8 @@ namespace BestBuyCorporate
                 string date = lawyer.GetResponse("What day has this transaction taken place?");
                 creator.AddSale(product, quantity, date);
             }
+
+            Console.ReadLine();
 
             
 

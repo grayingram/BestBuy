@@ -30,7 +30,7 @@ namespace BestBuyCorporate
             {
                 conn.Open();
 
-                MySqlCommand cmd = new MySqlCommand();
+                MySqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = "SELECT CatergoryID FROM categories as c WHERE c.Name = @category;";
                 cmd.Parameters.AddWithValue("category", category);
 
@@ -49,7 +49,7 @@ namespace BestBuyCorporate
             {
                 conn.Open();
 
-                MySqlCommand cmd = new MySqlCommand();
+                MySqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = "SELECT CatergoryID FROM products as c WHERE c.Name = @product;";
                 cmd.Parameters.AddWithValue("product", product);
 
@@ -68,7 +68,7 @@ namespace BestBuyCorporate
             {
                 conn.Open();
 
-                MySqlCommand cmd = new MySqlCommand();
+                MySqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = "SELECT Price FROM products as c WHERE c.Name = @product;";
                 cmd.Parameters.AddWithValue("product", product);
 
@@ -87,14 +87,14 @@ namespace BestBuyCorporate
             {
                 conn.Open();
 
-                MySqlCommand cmd = new MySqlCommand();
+                MySqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = "SELECT Count(c.name) AS result FROM categories c WHERE name = @category;";
                 cmd.Parameters.AddWithValue("category", category);
 
                 MySqlDataReader dr = cmd.ExecuteReader();
-
+                dr.Read();
                 int count = int.Parse(dr[0].ToString());
-                if(count == 1)
+                if (count == 1)
                 {
                     return true;
                 }
@@ -104,5 +104,6 @@ namespace BestBuyCorporate
                 }
             }
 
+        }
     }
 }
