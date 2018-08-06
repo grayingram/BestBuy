@@ -35,7 +35,7 @@ namespace BestBuyCorporate
                 cmd.Parameters.AddWithValue("category", category);
 
                 MySqlDataReader dr = cmd.ExecuteReader();
-
+                dr.Read();
                 int Category = int.Parse(dr[0].ToString());
                 return Category;
             }
@@ -54,7 +54,7 @@ namespace BestBuyCorporate
                 cmd.Parameters.AddWithValue("product", product);
 
                 MySqlDataReader dr = cmd.ExecuteReader();
-
+                dr.Read();
                 int Product = int.Parse(dr[0].ToString());
                 return Product;
             }
@@ -73,7 +73,7 @@ namespace BestBuyCorporate
                 cmd.Parameters.AddWithValue("product", product);
 
                 MySqlDataReader dr = cmd.ExecuteReader();
-
+                dr.Read();
                 int Price = int.Parse(dr[0].ToString());
                 return Price;
             }
@@ -104,6 +104,31 @@ namespace BestBuyCorporate
                 }
             }
 
+        }
+        public bool DoesProductNameExist(string product)
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT Count(p.name) AS result FROM products c WHERE name = @product;";
+                cmd.Parameters.AddWithValue("product", product);
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+                dr.Read();
+                int count = int.Parse(dr[0].ToString());
+                if (count == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
     }
 }
