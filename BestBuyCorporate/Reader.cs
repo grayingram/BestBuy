@@ -40,6 +40,24 @@ namespace BestBuyCorporate
                 return Category;
             }
         }
+        public int GetCategoryID(int categoryId)
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT CategoryID FROM categories as c WHERE  c.categoryID = @categoryId;";
+                cmd.Parameters.AddWithValue("categoryId", categoryId);
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+                dr.Read();
+                int Product = int.Parse(dr[0].ToString());
+                return Product;
+            }
+        }
         public string GetCategoryName(int categoryID)
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);
@@ -63,6 +81,25 @@ namespace BestBuyCorporate
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);
 
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT ProductID FROM products as p WHERE p.Name = @product;";
+                cmd.Parameters.AddWithValue("product", product);
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+                dr.Read();
+                int Product = int.Parse(dr[0].ToString());
+                return Product;
+            }
+        }
+        
+        public int GetProductIDFromCatID(string categoryid)
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+            int product = GetCategoryID(categoryid);
             using (conn)
             {
                 conn.Open();

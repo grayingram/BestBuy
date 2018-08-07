@@ -9,6 +9,7 @@ namespace BestBuyCorporate
     {
         public string ConnStr { get; private set; }
         public Reader reader = new Reader();
+        //public Deleter MyDeleter = new Deleter();
         public Deleter()
         {
             ConnStr = "";
@@ -17,6 +18,11 @@ namespace BestBuyCorporate
         {
             ConnStr = connStr;
             reader.SetConnStr(connStr);
+            
+        }
+        public void SetConnStr(string connStr)
+        {
+            ConnStr = connStr;
         }
         //category has category id and name
         public void DeleteCategoryByName(string category)
@@ -28,13 +34,14 @@ namespace BestBuyCorporate
                 conn.Open();
 
                 MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "DELETE FROM catergories WHERE name = @category";
+                cmd.CommandText = "DELETE FROM categories WHERE name = @category";
                 cmd.Parameters.AddWithValue("category", category);
                 cmd.ExecuteNonQuery();
             }
         }
         public void DeleteCategoryById(int categoryID)
         {
+            DeleteProductByCategory(categoryID);
             MySqlConnection conn = new MySqlConnection(ConnStr);
 
             using (conn)
@@ -42,7 +49,7 @@ namespace BestBuyCorporate
                 conn.Open();
 
                 MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "DELETE FROM catergories WHERE categoryID = @categoryID";
+                cmd.CommandText = "DELETE FROM categories WHERE categoryID = @categoryID";
                 cmd.Parameters.AddWithValue("categoryID", categoryID);
                 cmd.ExecuteNonQuery();
             }
@@ -94,6 +101,7 @@ namespace BestBuyCorporate
         }
         public void DeleteProductByCategory(int categoryID)
         {
+            DeleteSaleByProduct(reader.GetProductIDFromCatID(categoryID.ToString()));
             MySqlConnection conn = new MySqlConnection(ConnStr);
 
             using (conn)
@@ -161,6 +169,20 @@ namespace BestBuyCorporate
                 MySqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = "DELETE FROM sales WHERE price = @price";
                 cmd.Parameters.AddWithValue("price", price);
+                cmd.ExecuteNonQuery();
+            }
+        }
+        public void DeleteSaleByProduct(int productid)
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "DELETE FROM sales WHERE productID = @productID";
+                cmd.Parameters.AddWithValue("productID", productid);
                 cmd.ExecuteNonQuery();
             }
         }
