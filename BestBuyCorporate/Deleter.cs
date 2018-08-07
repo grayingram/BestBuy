@@ -7,7 +7,7 @@ namespace BestBuyCorporate
 {
     class Deleter
     {
-        public string ConnStr { get; set; }
+        public string ConnStr { get; private set; }
         public Reader reader = new Reader();
         public Deleter()
         {
@@ -28,7 +28,7 @@ namespace BestBuyCorporate
                 conn.Open();
 
                 MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "DELETE Name FROM catergories WHERE name = @category";
+                cmd.CommandText = "DELETE FROM catergories WHERE name = @category";
                 cmd.Parameters.AddWithValue("category", category);
                 cmd.ExecuteNonQuery();
             }
@@ -42,7 +42,7 @@ namespace BestBuyCorporate
                 conn.Open();
 
                 MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "DELETE Name FROM catergories WHERE categoryID = @categoryID";
+                cmd.CommandText = "DELETE FROM catergories WHERE categoryID = @categoryID";
                 cmd.Parameters.AddWithValue("categoryID", categoryID);
                 cmd.ExecuteNonQuery();
             }
@@ -72,7 +72,7 @@ namespace BestBuyCorporate
                 conn.Open();
 
                 MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "DELETE Name FROM sales WHERE SalesID = @sale";
+                cmd.CommandText = "DELETE FROM sales WHERE salesID = @sale";
                 cmd.Parameters.AddWithValue("saleID", saleid);
                 cmd.ExecuteNonQuery();
             }

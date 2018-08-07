@@ -7,7 +7,7 @@ namespace BestBuyCorporate
 {
     class Reader
     {
-        public string ConnStr { get; set; }
+        public string ConnStr { get; private set; }
         public Reader()
         {
             ConnStr = "";
@@ -50,7 +50,7 @@ namespace BestBuyCorporate
                 conn.Open();
 
                 MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT CategoryID FROM products as c WHERE c.Name = @product;";
+                cmd.CommandText = "SELECT ProductID FROM products as p WHERE p.Name = @product;";
                 cmd.Parameters.AddWithValue("product", product);
 
                 MySqlDataReader dr = cmd.ExecuteReader();
@@ -69,12 +69,12 @@ namespace BestBuyCorporate
                 conn.Open();
 
                 MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT Price FROM products as c WHERE c.Name = @product;";
+                cmd.CommandText = "SELECT Price FROM products as p WHERE p.Name = @product;";
                 cmd.Parameters.AddWithValue("product", product);
 
                 MySqlDataReader dr = cmd.ExecuteReader();
                 dr.Read();
-                int Price = int.Parse(dr[0].ToString());
+                decimal Price = decimal.Parse(dr[0].ToString());
                 return Price;
             }
         }
@@ -114,7 +114,7 @@ namespace BestBuyCorporate
                 conn.Open();
 
                 MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT Count(p.name) AS result FROM products c WHERE name = @product;";
+                cmd.CommandText = "SELECT Count(p.name) AS result FROM products p WHERE name = @product;";
                 cmd.Parameters.AddWithValue("product", product);
 
                 MySqlDataReader dr = cmd.ExecuteReader();

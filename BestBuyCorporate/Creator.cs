@@ -7,7 +7,7 @@ namespace BestBuyCorporate
 {
     class Creator
     {
-        public string ConnStr { get; set; }
+        public string ConnStr { get; private set; }
         public Reader reader = new Reader();
         public Creator(string connStr)
         {
@@ -58,7 +58,7 @@ namespace BestBuyCorporate
                 conn.Open();
 
                 MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "INSERT INTO sales (ProductID, Quantity, CategoryID, Date) VALUES(@productID, @quantity, @price, @date);";
+                cmd.CommandText = "INSERT INTO sales (ProductID, Quantity, Price, Date) VALUES(@productID, @quantity, @price, @date);";
                 cmd.Parameters.AddWithValue("productId", productID);
                 cmd.Parameters.AddWithValue("quantity", quantity);
                 cmd.Parameters.AddWithValue("price", price);
