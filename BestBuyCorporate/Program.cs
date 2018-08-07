@@ -26,9 +26,16 @@ namespace BestBuyCorporate
             
             Reader reader = new Reader(connStr);
 
-            if(Lawyer.GetYesNo("Whould you like to create records?"))
+            Deleter deleter = new Deleter(connStr);
+
+            if(Lawyer.GetYesNo("Would you like to create records?"))
             {
                 Create(creator, reader);
+            }
+
+            if (Lawyer.GetYesNo("Would you like to delete records?"))
+            {
+                Delete(creator, deleter, reader);
             }
             
             Console.ReadLine();           
@@ -38,10 +45,10 @@ namespace BestBuyCorporate
         {
             do
             {
-                if (Lawyer.GetYesNo("Would you like to add a category to the merchendise to sell?"))
+                if (Lawyer.GetYesNo("Would you like to add a category to the merchandise to sell?"))
                 {
                     string category = Lawyer.GetResponse("What would you like to call this category to be added to the database?");
-                    while (reader.DoesCategoryExist(category))
+                    while (reader.DoesCategoryNameExist(category))
                     {
                         Console.WriteLine("Sorry that category already exist try again?");
                         category = Lawyer.GetResponse("What would you like to call this category to be added to the database?");
@@ -53,7 +60,7 @@ namespace BestBuyCorporate
                 {
                     string name = Lawyer.GetResponse("What is the name of the item to be added to the store?");
                     string category = Lawyer.GetResponse("What category do you want would this item be considered?");
-                    while (!(reader.DoesCategoryExist(category)))
+                    while (!(reader.DoesCategoryNameExist(category)))
                     {
                         Console.WriteLine("Category does not exist");
                         category = Lawyer.GetResponse("What category do would you consider this item?");
@@ -80,6 +87,42 @@ namespace BestBuyCorporate
                     creator.AddSale(product, quantity, date);
                 }
             } while (Lawyer.GetYesNo("Do you want to add more records?"));
+        }
+        public static void Delete(Creator creator, Deleter deleter, Reader reader)
+        {
+            do
+            {
+                if (Lawyer.GetYesNo("Do you want to delete a category?"))
+                {
+                    if(Lawyer.GetYesNo("Do you want to delete a category by CategoryID"))
+                    {
+                        int catId = Lawyer.GetInt("What is the Category Id you want to delete?");
+                        while (!(reader.DoesCategoryIdExist(catId)))
+                        {
+                            Console.WriteLine("Sorry that category does not exist, try again?");
+                            catId = Lawyer.GetInt("What is the Category Id you want to delete ? ");
+                        }
+                        string categoryId = reader.GetCategoryName(catId);
+                        if(Lawyer.GetYesNo("Are you sure you want to delete this category " + categoryId))
+                        {
+                            deleter.DeleteCategoryById(catId);
+                        }
+
+                    }
+                    else if (Lawyer.GetYesNo("Do you want to delete a category by Name"))
+                    {
+
+                    }
+                }
+                else if (Lawyer.GetYesNo("Do you want to delete a product"))
+                {
+                    Console.WriteLine("Deleted product");
+                }
+                else if (Lawyer.GetYesNo("Do you want to delete a sale?"))
+                {
+                    Console.WriteLine("Deleted sale");
+                }
+            } while (Lawyer.GetYesNo("Do you want to delete more records?"));
         }
     }
 }

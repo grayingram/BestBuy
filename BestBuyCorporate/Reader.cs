@@ -40,6 +40,24 @@ namespace BestBuyCorporate
                 return Category;
             }
         }
+        public string GetCategoryName(int categoryID)
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT Name FROM categories as c WHERE c.CategoryID = @categoryID;";
+                cmd.Parameters.AddWithValue("categoryID", categoryID);
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+                dr.Read();
+                string Category = dr[0].ToString();
+                return Category;
+            }
+        }
 
         public int GetProductID(string product)
         {
@@ -79,7 +97,7 @@ namespace BestBuyCorporate
             }
         }
 
-        public bool DoesCategoryExist(string category)
+        public bool DoesCategoryNameExist(string category)
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);
 
@@ -116,6 +134,32 @@ namespace BestBuyCorporate
                 MySqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = "SELECT Count(p.name) AS result FROM products p WHERE name = @product;";
                 cmd.Parameters.AddWithValue("product", product);
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+                dr.Read();
+                int count = int.Parse(dr[0].ToString());
+                if (count == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        public bool DoesCategoryIdExist(int categoryID)
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT Count(c.categoryID) AS result FROM categories c WHERE categoryID = @categoryId;";
+                cmd.Parameters.AddWithValue("categoryId", categoryID);
+
 
                 MySqlDataReader dr = cmd.ExecuteReader();
                 dr.Read();
