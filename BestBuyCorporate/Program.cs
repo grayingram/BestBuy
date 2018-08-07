@@ -72,7 +72,11 @@ namespace BestBuyCorporate
                         product = Lawyer.GetResponse("What is the name of the product that has been sold?");
                     }
                     int quantity = Lawyer.GetInt("How many of the item did the customer buy?");
-                    string date = Lawyer.GetResponse("What day has this transaction taken place?");
+                    int year = Lawyer.GetInt("What year has this transaction taken place?");
+                    int month = Lawyer.GetInt("What numerical month has this transaction taken place?");
+                    int day = Lawyer.GetInt("What day of the month has this transaction taken place?");
+                    DateTime date = new DateTime(year, month, day);
+                
                     creator.AddSale(product, quantity, date);
                 }
             } while (Lawyer.GetYesNo("Do you want to add more records?"));
