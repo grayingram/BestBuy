@@ -31,7 +31,7 @@ namespace BestBuyCorporate
                 conn.Open();
 
                 MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT CatergoryID FROM categories as c WHERE c.Name = @category;";
+                cmd.CommandText = "SELECT CategoryID FROM categories as c WHERE c.Name = @category;";
                 cmd.Parameters.AddWithValue("category", category);
 
                 MySqlDataReader dr = cmd.ExecuteReader();
@@ -50,7 +50,7 @@ namespace BestBuyCorporate
                 conn.Open();
 
                 MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT CatergoryID FROM products as c WHERE c.Name = @product;";
+                cmd.CommandText = "SELECT CategoryID FROM products as c WHERE c.Name = @product;";
                 cmd.Parameters.AddWithValue("product", product);
 
                 MySqlDataReader dr = cmd.ExecuteReader();

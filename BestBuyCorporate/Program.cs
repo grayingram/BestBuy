@@ -25,23 +25,26 @@ namespace BestBuyCorporate
             Lawyer lawyer = new Lawyer();
             Reader reader = new Reader(connStr);
 
-            if(lawyer.GetYesNo("Would you like to add a category to the merchendise to sell?"))
+            if (lawyer.GetYesNo("Would you like to add a category to the merchendise to sell?"))
             {
                 string category = lawyer.GetResponse("What would you like to call this category to be added to the database?");
-                while(reader.DoesCategoryExist(category))
+                while (reader.DoesCategoryExist(category))
                 {
                     Console.WriteLine("Sorry that category already exist try again?");
                     category = lawyer.GetResponse("What would you like to call this category to be added to the database?");
                 }
                 creator.AddCategory(category);
-                
-                
             }
 
             if(lawyer.GetYesNo("Would you like to add a new product?"))
             {
                 string name = lawyer.GetResponse("What is the name of the item to be added to the store?");
                 string category = lawyer.GetResponse("What category do you want would this item be considered?");
+                while (!(reader.DoesCategoryExist(category)))
+                {
+                    Console.WriteLine("Category does not exist");
+                    category = lawyer.GetResponse("What category do would you consider this item?");
+                }
                 //previous line could break the entire program thinking about another add on to lawyer class
                 decimal price = lawyer.GetDecimal("How much does this product cost?");
                 creator.AddProduct(name, price, category);
@@ -50,6 +53,11 @@ namespace BestBuyCorporate
             if(lawyer.GetYesNo("Would you like to add a sale?"))
             {
                 string product = lawyer.GetResponse("What is the name of the product that has been sold?");
+                while (!(reader.DoesProductNameExist(product)))
+                {
+                    Console.WriteLine("That product does not exist, please enter a valid product.");
+                    product = lawyer.GetResponse("What is the name of the product that has been sold?");
+                }
                 int quantity = lawyer.GetInt("How many of the item did the customer buy?");
                 string date = lawyer.GetResponse("What day has this transaction taken place?");
                 creator.AddSale(product, quantity, date);

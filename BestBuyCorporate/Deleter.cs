@@ -18,6 +18,7 @@ namespace BestBuyCorporate
             ConnStr = connStr;
             reader.SetConnStr(connStr);
         }
+        //category has category id and name
         public void DeleteCategoryByName(string category)
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);
@@ -46,6 +47,7 @@ namespace BestBuyCorporate
                 cmd.ExecuteNonQuery();
             }
         }
+        //products has product id, name, price, category id
         public void DeleteProductByName(string product)
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);
@@ -60,9 +62,20 @@ namespace BestBuyCorporate
                 cmd.ExecuteNonQuery();
             }
         }
-        public void DeleteSale(string sale)
+        //sales has salesId, prod Id, quantity, price, and date
+        public void DeleteSaleByID(string saleid)
         {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
 
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "DELETE Name FROM sales WHERE SalesID = @sale";
+                cmd.Parameters.AddWithValue("saleID", saleid);
+                cmd.ExecuteNonQuery();
+            }
         }
     }
 }

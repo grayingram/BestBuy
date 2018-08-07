@@ -58,7 +58,7 @@ namespace BestBuyCorporate
                 conn.Open();
 
                 MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "INSERT INTO sales (ProductID, Quantity, CategoryID) VALUES(@productID, @quantity, @price, @date);";
+                cmd.CommandText = "INSERT INTO sales (ProductID, Quantity, CategoryID, Date) VALUES(@productID, @quantity, @price, @date);";
                 cmd.Parameters.AddWithValue("productId", productID);
                 cmd.Parameters.AddWithValue("quantity", quantity);
                 cmd.Parameters.AddWithValue("price", price);
