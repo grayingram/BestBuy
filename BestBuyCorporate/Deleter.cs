@@ -61,6 +61,8 @@ namespace BestBuyCorporate
         //products has product id, name, price, category id
         public void DeleteProductByName(string product)
         {
+            int prodid = reader.GetProductID(product);
+            DeleteSalesByProductId(prodid);
             MySqlConnection conn = new MySqlConnection(ConnStr);
 
             using (conn)

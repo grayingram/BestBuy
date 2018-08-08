@@ -140,6 +140,19 @@ namespace BestBuyCorporate
                             deleter.DeleteProductByID(prodid);
                         }
                     }
+                    else if(Lawyer.GetYesNo("Do you want to delete a product by Product Name?"))
+                    {
+                        string prodname = Lawyer.GetResponse("What is the Name of the product you want to delete?");
+                        while (!(reader.DoesProductNameExist(prodname)))
+                        {
+                            Console.WriteLine("Sorry but that product does not exist, try again.");
+                            prodname = Lawyer.GetResponse("What is the Name of the product you want to delete?");
+                        }
+                        if(Lawyer.GetYesNo("Are you sure you want to delete this product :" + prodname))
+                        {
+                            deleter.DeleteProductByName(prodname);
+                        }
+                    }
                 }
                 //sale has 
                 else if (Lawyer.GetYesNo("Do you want to delete a sale?"))
