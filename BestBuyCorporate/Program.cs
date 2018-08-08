@@ -153,6 +153,30 @@ namespace BestBuyCorporate
                             deleter.DeleteProductByName(prodname);
                         }
                     }
+                    else if (Lawyer.GetYesNo("Do you want to delete a product by Price?"))
+                    {
+                        decimal prodprice = Lawyer.GetDecimal("What is the price of products you want to delete?");
+                        while (!(reader.DoesProductPriceExist(prodprice)))
+                        {
+                            Console.WriteLine("Sorry no product has that price, try again.");
+                            prodprice = Lawyer.GetDecimal("What is the price of products you want to delete?");
+                        }
+                        List<string> products = reader.GetProductsByPrice(prodprice);
+                        if(Lawyer.GetYesNo("Are you sure you want to delete " + products.Count + " products"))
+                        {
+                            foreach(string product in products)
+                            {
+                                Console.WriteLine(product);
+                                Console.WriteLine("Price:" + reader.GetProductPrice(product));
+                                deleter.DeleteProductByPrice(reader.GetProductPrice(product));
+                                Console.ReadLine();
+                            }
+                        }
+                    }
+                    else if (Lawyer.GetYesNo("Do you want to delete a product by Category Id?")) //category id
+                    {
+
+                    }
                 }
                 //sale has 
                 else if (Lawyer.GetYesNo("Do you want to delete a sale?"))

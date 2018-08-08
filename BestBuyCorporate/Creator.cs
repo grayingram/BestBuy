@@ -51,7 +51,7 @@ namespace BestBuyCorporate
         public void AddSale(string product, int quantity, DateTime date)
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);
-            decimal price = reader.GetPrice(product);
+            decimal price = reader.GetProductPrice(product);
             int productID = reader.GetProductID(product);
             using (conn)
             {

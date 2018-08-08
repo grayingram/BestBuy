@@ -154,7 +154,7 @@ namespace BestBuyCorporate
                 return productIds;
             }
         }
-        public decimal GetPrice(string product)
+        public decimal GetProductPrice(string product)
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);
 
@@ -167,9 +167,33 @@ namespace BestBuyCorporate
                 cmd.Parameters.AddWithValue("product", product);
 
                 MySqlDataReader dr = cmd.ExecuteReader();
-                dr.Read();
-                decimal Price = decimal.Parse(dr[0].ToString());
+                decimal Price = 0;
+                if (dr.Read()) {
+                   Price = decimal.Parse(dr[0].ToString());
+                }
                 return Price;
+            }
+        }
+        public List<string> GetProductsByPrice(decimal price)
+        {
+            List<string> products = new List<string>();
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+            //int product = GetCategoryID(categoryId);
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT Name FROM products as p WHERE p.Price = @price;";
+                cmd.Parameters.AddWithValue("price", price);
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+                //dr.Read();
+                while (dr.Read())
+                {
+                    products.Add(dr["Name"].ToString());
+                }
+                return products;
             }
         }
 
@@ -267,6 +291,57 @@ namespace BestBuyCorporate
                 dr.Read();
                 int count = int.Parse(dr[0].ToString());
                 if (count == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        public bool DoesProductPriceExist(decimal productprice)
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT Count(p.price) AS result FROM products p WHERE price = @productprice;";
+                cmd.Parameters.AddWithValue("productprice", productprice);
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+                dr.Read();
+                int count = int.Parse(dr[0].ToString());
+                if (count >= 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool DoesSaleByPriceExist(decimal price)
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT Count(p.price) AS result FROM sales p WHERE price = @price;";
+                cmd.Parameters.AddWithValue("price", price);
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+                dr.Read();
+                int count = int.Parse(dr[0].ToString());
+                if (count >= 1)
                 {
                     return true;
                 }

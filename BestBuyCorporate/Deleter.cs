@@ -92,6 +92,10 @@ namespace BestBuyCorporate
         }
         public void DeleteProductByPrice(decimal price)
         {
+            if (reader.DoesSaleByPriceExist(price))
+            {
+                DeleteSaleByPrice(price);
+            }
             MySqlConnection conn = new MySqlConnection(ConnStr);
 
             using (conn)
