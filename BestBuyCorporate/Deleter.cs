@@ -9,7 +9,7 @@ namespace BestBuyCorporate
     {
         public string ConnStr { get; private set; }
         public Reader reader = new Reader();
-        
+
         public Deleter()
         {
             ConnStr = "";
@@ -18,7 +18,7 @@ namespace BestBuyCorporate
         {
             ConnStr = connStr;
             reader.SetConnStr(connStr);
-            
+
         }
         public void SetConnStr(string connStr)
         {
@@ -56,8 +56,8 @@ namespace BestBuyCorporate
                 cmd.ExecuteNonQuery();
             }
         }
-        
-        
+
+
         //products has product id, name, price, category id
         public void DeleteProductByName(string product)
         {
@@ -75,6 +75,7 @@ namespace BestBuyCorporate
         }
         public void DeleteProductByID(int productID)
         {
+            DeleteSalesByProductId(productID);
             MySqlConnection conn = new MySqlConnection(ConnStr);
 
             using (conn)
@@ -192,6 +193,23 @@ namespace BestBuyCorporate
                     cmd.ExecuteNonQuery();
 
                 }
+            }
+        }
+        public void DeleteSalesByProductId(int productid)
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+
+
+                cmd.CommandText = "DELETE FROM sales WHERE productID = @productid";
+                cmd.Parameters.AddWithValue("productid", productid);
+                cmd.ExecuteNonQuery();
+
             }
         }
     }

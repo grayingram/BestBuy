@@ -109,7 +109,7 @@ namespace BestBuyCorporate
                         }
 
                     }
-                    else if (Lawyer.GetYesNo("Do you want to delete a category by Name"))
+                    else if(Lawyer.GetYesNo("Do you want to delete a category by Name"))
                     {
                         string category = Lawyer.GetResponse("What is the Name of the Category you want to delete?");
                         while (!(reader.DoesCategoryNameExist(category)))
@@ -123,10 +123,25 @@ namespace BestBuyCorporate
                         }
                     }
                 }
+                //product has productId, Name, Price, and category id
                 else if (Lawyer.GetYesNo("Do you want to delete a product"))
                 {
-                    Console.WriteLine("Deleted product");
+                    if(Lawyer.GetYesNo("Do you want to delete a product by Product Id?"))
+                    {
+                        int prodid = Lawyer.GetInt("What is the Product id that you want to delete?");
+                        while (!(reader.DoesProductIdExist(prodid)))
+                        {
+                            Console.WriteLine("Sorry but that product does not exist, try again.");
+                            prodid = Lawyer.GetInt("What is the Product id that you want to delete?");
+                        }
+                        string productId = reader.GetProductName(prodid);
+                        if(Lawyer.GetYesNo("Are you sure you want to delete this product :" + productId))
+                        {
+                            deleter.DeleteProductByID(prodid);
+                        }
+                    }
                 }
+                //sale has 
                 else if (Lawyer.GetYesNo("Do you want to delete a sale?"))
                 {
                     Console.WriteLine("Deleted sale");

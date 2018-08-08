@@ -95,6 +95,24 @@ namespace BestBuyCorporate
                 return Product;
             }
         }
+        public string GetProductName(int productID)
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT Name FROM products as p WHERE p.productid = @productID;";
+                cmd.Parameters.AddWithValue("productID", productID);
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+                dr.Read();
+                string Product = dr[0].ToString();
+                return Product;
+            }
+        }
         
         public int GetProductIDFromCatID(string categoryid)
         {
@@ -181,6 +199,33 @@ namespace BestBuyCorporate
             }
 
         }
+        public bool DoesCategoryIdExist(int categoryID)
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT Count(c.categoryID) AS result FROM categories c WHERE categoryID = @categoryId;";
+                cmd.Parameters.AddWithValue("categoryId", categoryID);
+
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+                dr.Read();
+                int count = int.Parse(dr[0].ToString());
+                if (count == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
         public bool DoesProductNameExist(string product)
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);
@@ -206,7 +251,7 @@ namespace BestBuyCorporate
                 }
             }
         }
-        public bool DoesCategoryIdExist(int categoryID)
+        public bool DoesProductIdExist(int productid)
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);
 
@@ -215,9 +260,8 @@ namespace BestBuyCorporate
                 conn.Open();
 
                 MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT Count(c.categoryID) AS result FROM categories c WHERE categoryID = @categoryId;";
-                cmd.Parameters.AddWithValue("categoryId", categoryID);
-
+                cmd.CommandText = "SELECT Count(p.productid) AS result FROM products p WHERE productid = @productid;";
+                cmd.Parameters.AddWithValue("productid", productid);
 
                 MySqlDataReader dr = cmd.ExecuteReader();
                 dr.Read();
