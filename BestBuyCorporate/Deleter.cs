@@ -27,6 +27,8 @@ namespace BestBuyCorporate
         //category has category id and name
         public void DeleteCategoryByName(string category)
         {
+            int catid = reader.GetCategoryID(category);
+            DeleteProductByCategory(catid);
             MySqlConnection conn = new MySqlConnection(ConnStr);
 
             using (conn)

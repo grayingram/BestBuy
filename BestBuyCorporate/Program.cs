@@ -99,7 +99,7 @@ namespace BestBuyCorporate
                         int catId = Lawyer.GetInt("What is the Category Id you want to delete?");
                         while (!(reader.DoesCategoryIdExist(catId)))
                         {
-                            Console.WriteLine("Sorry that category does not exist, try again?");
+                            Console.WriteLine("Sorry that category does not exist, try again.");
                             catId = Lawyer.GetInt("What is the Category Id you want to delete ? ");
                         }
                         string categoryId = reader.GetCategoryName(catId);
@@ -111,7 +111,16 @@ namespace BestBuyCorporate
                     }
                     else if (Lawyer.GetYesNo("Do you want to delete a category by Name"))
                     {
-
+                        string category = Lawyer.GetResponse("What is the Name of the Category you want to delete?");
+                        while (!(reader.DoesCategoryNameExist(category)))
+                        {
+                            Console.WriteLine("Sorry that category does not exist, try again.");
+                            category = Lawyer.GetResponse("What is the Name of the Category you want to delete?");
+                        }
+                        if(Lawyer.GetYesNo("Are you sure you want to delete this category :" + category))
+                        {
+                            deleter.DeleteCategoryByName(category);
+                        }
                     }
                 }
                 else if (Lawyer.GetYesNo("Do you want to delete a product"))
