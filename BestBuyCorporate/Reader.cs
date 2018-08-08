@@ -325,7 +325,58 @@ namespace BestBuyCorporate
                 }
             }
         }
+        public bool DoesProductWithCatIdExist(int categoryid)
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
 
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT Count(p.categoryid) AS result FROM products p WHERE categoryid = @categoryid;";
+                cmd.Parameters.AddWithValue("categoryid", categoryid);
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+                dr.Read();
+                int count = int.Parse(dr[0].ToString());
+                if (count >= 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool DoesSaleIDExist(int saleid)
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT Count(s.salesid) AS result FROM sales s WHERE salesid = @saleid;";
+                cmd.Parameters.AddWithValue("saleid", saleid);
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+                dr.Read();
+                int count = int.Parse(dr[0].ToString());
+                if (count >= 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        
         public bool DoesSaleByPriceExist(decimal price)
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);
@@ -351,5 +402,6 @@ namespace BestBuyCorporate
                 }
             }
         }
+
     }
 }

@@ -173,15 +173,51 @@ namespace BestBuyCorporate
                             }
                         }
                     }
-                    else if (Lawyer.GetYesNo("Do you want to delete a product by Category Id?")) //category id
+                    else if (Lawyer.GetYesNo("Do you want to delete a product by Category Id?")) 
                     {
-
+                        int catid = Lawyer.GetInt("What is the Category Id you want to delete products by?");
+                        while (!(reader.DoesProductWithCatIdExist(catid)))
+                        {
+                            Console.WriteLine("Sorry there are no products with that category id, try again");
+                            catid = Lawyer.GetInt("What is the Category Id you want to delete products by?");
+                        }
+                        string category = reader.GetCategoryName(catid);
+                        if(Lawyer.GetYesNo("Are you sure you want to delete all products that are asscoiated with:" + category + "?"))
+                        {
+                            deleter.DeleteProductByCategory(catid);
+                        }
                     }
                 }
-                //sale has 
+                //sale has salesid, Product id, quantity, date
                 else if (Lawyer.GetYesNo("Do you want to delete a sale?"))
                 {
-                    Console.WriteLine("Deleted sale");
+                    if(Lawyer.GetYesNo("Do you want to delete a sale by Sale Id?"))
+                    {
+                        int saleid = Lawyer.GetInt("What Sale Id do you want to delete?");
+                        while (!(reader.DoesSaleIDExist(saleid)))
+                        {
+                            Console.WriteLine("Sorry but no sale with that id exist, try again.");
+                            saleid = Lawyer.GetInt("What Sale Id do you want to delete?");
+                        }
+                        if(Lawyer.GetYesNo("Are you sure you want to delete sale with id:" + saleid))
+                        {
+                            deleter.DeleteSaleByID(saleid.ToString());
+                            
+                        }
+
+                    }
+                    else if(Lawyer.GetYesNo("Do you to delete a sale by Product Id?"))
+                    {
+                        Console.WriteLine("Product id");
+                    }
+                    else if(Lawyer.GetYesNo("Do you want to delete a sale by quantity?"))
+                    {
+                        Console.WriteLine("Quantity");
+                    }
+                    else if(Lawyer.GetYesNo("Do you want to delete a sale by a date?"))
+                    {
+                        Console.WriteLine("Date");
+                    }
                 }
             } while (Lawyer.GetYesNo("Do you want to delete more records?"));
         }

@@ -134,7 +134,7 @@ namespace BestBuyCorporate
                 conn.Open();
 
                 MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "DELETE FROM sales WHERE salesID = @sale";
+                cmd.CommandText = "DELETE FROM sales WHERE salesID = @saleID";
                 cmd.Parameters.AddWithValue("saleID", saleid);
                 cmd.ExecuteNonQuery();
             }
