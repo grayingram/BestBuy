@@ -114,7 +114,28 @@ namespace BestBuyCorporate
                 return Product;
             }
         }
+        public List<int> GetProductsIDFromCatID(int categoryId)
+        {
+            List<int> productIds = new List<int>();
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+            //int product = GetCategoryID(categoryId);
+            using (conn)
+            {
+                conn.Open();
 
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT ProductID FROM products as p WHERE p.categoryID = @categoryId;";
+                cmd.Parameters.AddWithValue("categoryID", categoryId);
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+                //dr.Read();
+                while (dr.Read())
+                {
+                    productIds.Add(int.Parse(dr["ProductID"].ToString()));
+                }
+                return productIds;
+            }
+        }
         public decimal GetPrice(string product)
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);

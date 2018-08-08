@@ -9,7 +9,7 @@ namespace BestBuyCorporate
     {
         public string ConnStr { get; private set; }
         public Reader reader = new Reader();
-        //public Deleter MyDeleter = new Deleter();
+        
         public Deleter()
         {
             ConnStr = "";
@@ -101,7 +101,7 @@ namespace BestBuyCorporate
         }
         public void DeleteProductByCategory(int categoryID)
         {
-            DeleteSaleByProduct(reader.GetProductIDFromCatID(categoryID.ToString()));
+            DeleteSalesByProduct(reader.GetProductsIDFromCatID(categoryID));
             MySqlConnection conn = new MySqlConnection(ConnStr);
 
             using (conn)
@@ -172,18 +172,24 @@ namespace BestBuyCorporate
                 cmd.ExecuteNonQuery();
             }
         }
-        public void DeleteSaleByProduct(int productid)
+        public void DeleteSalesByProduct(List<int> productids)
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);
 
-            using (conn)
+            foreach (int productid in productids)
             {
-                conn.Open();
+                using (conn)
+                {
+                    conn.Open();
 
-                MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "DELETE FROM sales WHERE productID = @productID";
-                cmd.Parameters.AddWithValue("productID", productid);
-                cmd.ExecuteNonQuery();
+                    MySqlCommand cmd = conn.CreateCommand();
+
+
+                    cmd.CommandText = "DELETE FROM sales WHERE productID = @productid";
+                    cmd.Parameters.AddWithValue("productid", productid);
+                    cmd.ExecuteNonQuery();
+
+                }
             }
         }
     }
