@@ -35,14 +35,15 @@ namespace BestBuyCorporate
                 Create(creator, reader);
             }
 
-            if (Lawyer.GetYesNo("Would you like to delete records?"))
+            else if (Lawyer.GetYesNo("Would you like to delete records?"))
             {
                 Delete(deleter, reader);
             }
 
-            if(Lawyer.GetYesNo("Would you like to update records?"))
+            else if(Lawyer.GetYesNo("Would you like to update records?"))
             {
                 Update(updater, reader);
+                
             }
             
             Console.ReadLine();           
@@ -286,17 +287,35 @@ namespace BestBuyCorporate
         }
         public static void Update(Updater updater, Reader reader)
         {
-            if(Lawyer.GetYesNo("Do you want to update a category name?"))
+            do
             {
-                if (Lawyer.GetYesNo("Do you want to update a category name using its name?"))
+                if (Lawyer.GetYesNo("Do you want to update a category name?"))
                 {
-                    
-                }
-                else if (Lawyer.GetYesNo("Do you want to update a category name using its id?"))
-                {
+                    if (Lawyer.GetYesNo("Do you want to update a category name using its name?"))
+                    {
+                        string currentName = Lawyer.GetResponse("What is the category you want to rename?");
+                        while (!(reader.DoesCategoryNameExist(currentName)))
+                        {
+                            Console.WriteLine("Sorry but that there is no category by that name, try again.");
+                            currentName = Lawyer.GetResponse("What is the category you want to rename?");
+                        }
+                        string newName = Lawyer.GetResponse("What do you want to rename the category?");
+                        while (reader.DoesCategoryNameExist(newName))
+                        {
+                            Console.WriteLine("Sorry but that category name already exists, try again.");
+                            newName = Lawyer.GetResponse("What do you want to rename the category?");
+                        }
+                        if (Lawyer.GetYesNo("Are you sure you want to rename the category: " + currentName + " to " + newName + "?"))
+                        {
+                            updater.UpdateCategoryByName(currentName, newName);
+                        }
+                    }
+                    else if (Lawyer.GetYesNo("Do you want to update a category name using its id?"))
+                    {
 
+                    }
                 }
-            }
+            } while (Lawyer.GetYesNo("Do you want to update more records?"));
         }
     }
 }
