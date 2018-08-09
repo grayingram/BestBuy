@@ -222,7 +222,7 @@ namespace BestBuyCorporate
                     else if(Lawyer.GetYesNo("Do you want to delete a sale by quantity?"))
                     {
                         int salequantity = Lawyer.GetInt("What quantity do you want to delete all sales of?");
-                        while (!(reader.DoesSalebyQuantityExist(salequantity)))
+                        while (!(reader.DoesSaleByQuantityExist(salequantity)))
                         {
                             Console.WriteLine("Sorry there are no sales with that quantity, try again.");
                             salequantity = Lawyer.GetInt("What quantity do you want to delete all sales of?");
@@ -234,7 +234,25 @@ namespace BestBuyCorporate
                     }
                     else if(Lawyer.GetYesNo("Do you want to delete a sale by a date?"))
                     {
-                        Console.WriteLine("Date");
+                        
+                        int month = Lawyer.GetMonth("What month do you want to delete sales by?");
+                        int year = Lawyer.GetYear("What year do you want to delete sales by?");
+                        int day = Lawyer.GetDay("What day do you want to delete sales by?", month, year);
+                        DateTime date = new DateTime(year, month, day);
+                        while (!(reader.DoesSaleByDateExist(date)))
+                        {
+                            Console.WriteLine("Sorry but there are no sales with that date?");
+                            month = Lawyer.GetMonth("What month do you want to delete sales by?");
+                            year = Lawyer.GetYear("What year do you want to delete sales by?");
+                            day = Lawyer.GetDay("What day do you want to delete sales by?", month, year);
+                            DateTime dt = new DateTime(year, month, day);
+                            date = dt;
+                        }
+                        Console.WriteLine("All the checks worked!");
+                    }
+                    else if(Lawyer.GetYesNo("Do you want to delete sales by a certain price?"))
+                    {
+                        Console.WriteLine("Price");
                     }
                 }
             } while (Lawyer.GetYesNo("Do you want to delete more records?"));

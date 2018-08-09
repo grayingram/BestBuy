@@ -426,7 +426,7 @@ namespace BestBuyCorporate
                 }
             }
         }
-        public bool DoesSalebyQuantityExist(int quantity)
+        public bool DoesSaleByQuantityExist(int quantity)
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);
 
@@ -437,6 +437,31 @@ namespace BestBuyCorporate
                 MySqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = "SELECT Count(s.quantity) AS result FROM sales s WHERE quantity = @quantity;";
                 cmd.Parameters.AddWithValue("quantity", quantity);
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+                dr.Read();
+                int count = int.Parse(dr[0].ToString());
+                if (count >= 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        public bool DoesSaleByDateExist(DateTime date)
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT Count(s.date) AS result FROM sales s WHERE date = @date;";
+                cmd.Parameters.AddWithValue("date", date);
 
                 MySqlDataReader dr = cmd.ExecuteReader();
                 dr.Read();
