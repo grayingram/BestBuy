@@ -312,7 +312,23 @@ namespace BestBuyCorporate
                     }
                     else if (Lawyer.GetYesNo("Do you want to update a category name using its id?"))
                     {
-
+                        int catid = Lawyer.GetInt("What is the category id name you want to rename?");
+                        while (!(reader.DoesCategoryIdExist(catid)))
+                        {
+                            Console.WriteLine("Sorry but that category id does not exist, try again.");
+                            catid = Lawyer.GetInt("What is the category id name you want to rename?");
+                        }
+                        string currentName = reader.GetCategoryName(catid);
+                        string newName = Lawyer.GetResponse("What do you want to rename the category?");
+                        while (reader.DoesCategoryNameExist(newName))
+                        {
+                            Console.WriteLine("Sorry but that name already exist, try again.");
+                            newName = Lawyer.GetResponse("What do you want to rename the category?");
+                        }
+                        if(Lawyer.GetYesNo("Are you sure you want to rename the category: " + currentName + " to " + newName + "?"))
+                        {
+                            updater.UpdateCategoryById(catid, newName);
+                        }
                     }
                 }
             } while (Lawyer.GetYesNo("Do you want to update more records?"));
