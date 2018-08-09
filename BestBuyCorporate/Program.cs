@@ -35,7 +35,7 @@ namespace BestBuyCorporate
 
             if (Lawyer.GetYesNo("Would you like to delete records?"))
             {
-                Delete(creator, deleter, reader);
+                Delete(deleter, reader);
             }
             
             Console.ReadLine();           
@@ -88,7 +88,7 @@ namespace BestBuyCorporate
                 }
             } while (Lawyer.GetYesNo("Do you want to add more records?"));
         }
-        public static void Delete(Creator creator, Deleter deleter, Reader reader)
+        public static void Delete(Deleter deleter, Reader reader)
         {
             do
             {
@@ -188,7 +188,7 @@ namespace BestBuyCorporate
                         }
                     }
                 }
-                //sale has salesid, Product id, quantity, date
+                //sale has salesid, Product id, quantity, date, price
                 else if (Lawyer.GetYesNo("Do you want to delete a sale?"))
                 {
                     if(Lawyer.GetYesNo("Do you want to delete a sale by Sale Id?"))
@@ -201,18 +201,36 @@ namespace BestBuyCorporate
                         }
                         if(Lawyer.GetYesNo("Are you sure you want to delete sale with id:" + saleid))
                         {
-                            deleter.DeleteSaleByID(saleid.ToString());
-                            
+                            deleter.DeleteSaleByID(saleid.ToString());                            
                         }
 
                     }
                     else if(Lawyer.GetYesNo("Do you to delete a sale by Product Id?"))
                     {
-                        Console.WriteLine("Product id");
+                        int prodid = Lawyer.GetInt("By what Product id do you wnat to delete sales?");
+                        while (!(reader.DoesSaleByProdIdExist(prodid)))
+                        {
+                            Console.WriteLine("Sorry but no sale with that product id exist, try again.");
+                            prodid = Lawyer.GetInt("By what Product id do you want to delete sales?");
+                        }
+                        string productid = reader.GetProductName(prodid);
+                        if(Lawyer.GetYesNo("Are you sure you want to delete sales associated with the product: " + productid))
+                        {
+                            deleter.DeleteSalesByProductId(prodid);
+                        }
                     }
                     else if(Lawyer.GetYesNo("Do you want to delete a sale by quantity?"))
                     {
-                        Console.WriteLine("Quantity");
+                        int salequantity = Lawyer.GetInt("What quantity do you want to delete all sales of?");
+                        while (!(reader.DoesSalebyQuantityExist(salequantity)))
+                        {
+                            Console.WriteLine("Sorry there are no sales with that quantity, try again.");
+                            salequantity = Lawyer.GetInt("What quantity do you want to delete all sales of?");
+                        }
+                        if(Lawyer.GetYesNo("Are you sure you want to delete sales with quantity of: " + salequantity + "?"))
+                        {
+                            deleter.DeleteSaleByQuantity(salequantity);
+                        }
                     }
                     else if(Lawyer.GetYesNo("Do you want to delete a sale by a date?"))
                     {

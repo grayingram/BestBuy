@@ -376,7 +376,31 @@ namespace BestBuyCorporate
                 }
             }
         }
-        
+        public bool DoesSaleByProdIdExist(int productid)
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT Count(s.productid) AS result FROM sales s WHERE productid = @productid;";
+                cmd.Parameters.AddWithValue("productid", productid);
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+                dr.Read();
+                int count = int.Parse(dr[0].ToString());
+                if (count >= 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
         public bool DoesSaleByPriceExist(decimal price)
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);
@@ -388,6 +412,31 @@ namespace BestBuyCorporate
                 MySqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = "SELECT Count(p.price) AS result FROM sales p WHERE price = @price;";
                 cmd.Parameters.AddWithValue("price", price);
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+                dr.Read();
+                int count = int.Parse(dr[0].ToString());
+                if (count >= 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        public bool DoesSalebyQuantityExist(int quantity)
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT Count(s.quantity) AS result FROM sales s WHERE quantity = @quantity;";
+                cmd.Parameters.AddWithValue("quantity", quantity);
 
                 MySqlDataReader dr = cmd.ExecuteReader();
                 dr.Read();
