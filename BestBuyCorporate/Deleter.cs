@@ -24,7 +24,7 @@ namespace BestBuyCorporate
         {
             ConnStr = connStr;
         }
-        //category has category id and name
+        
         public void DeleteCategoryByName(string category)
         {
             int catid = reader.GetCategoryID(category);
@@ -57,8 +57,6 @@ namespace BestBuyCorporate
             }
         }
 
-
-        //products has product id, name, price, category id
         public void DeleteProductByName(string product)
         {
             int prodid = reader.GetProductID(product);
@@ -124,7 +122,6 @@ namespace BestBuyCorporate
             }
         }
 
-        //sales has salesId, prod Id, quantity, price, and date
         public void DeleteSaleByID(string saleid)
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);

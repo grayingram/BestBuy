@@ -286,7 +286,17 @@ namespace BestBuyCorporate
         }
         public static void Update(Updater updater, Reader reader)
         {
+            if(Lawyer.GetYesNo("Do you want to update a category name?"))
+            {
+                if (Lawyer.GetYesNo("Do you want to update a category name using its name?"))
+                {
+                    
+                }
+                else if (Lawyer.GetYesNo("Do you want to update a category name using its id?"))
+                {
 
+                }
+            }
         }
     }
 }
