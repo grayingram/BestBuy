@@ -28,6 +28,8 @@ namespace BestBuyCorporate
 
             Deleter deleter = new Deleter(connStr);
 
+            Updater updater = new Updater(connStr);
+
             if(Lawyer.GetYesNo("Would you like to create records?"))
             {
                 Create(creator, reader);
@@ -36,6 +38,11 @@ namespace BestBuyCorporate
             if (Lawyer.GetYesNo("Would you like to delete records?"))
             {
                 Delete(deleter, reader);
+            }
+
+            if(Lawyer.GetYesNo("Would you like to update records?"))
+            {
+                Update(updater, reader);
             }
             
             Console.ReadLine();           
@@ -276,6 +283,10 @@ namespace BestBuyCorporate
                     deleter.DeleteSaleByPrice(price);
                 }
             }
+        }
+        public static void Update(Updater updater, Reader reader)
+        {
+
         }
     }
 }
