@@ -51,7 +51,8 @@ namespace BestBuyCorporate
                 cmd.ExecuteNonQuery();
             }
         }
-        public void UpdateProductByName(string product, string change)
+
+        public void UpdateProductNameByName(string product, string change)
         {
             int prodid = reader.GetProductID(product);
             MySqlConnection conn = new MySqlConnection(ConnStr);
@@ -67,11 +68,26 @@ namespace BestBuyCorporate
                 cmd.ExecuteNonQuery();
             }
         }
-        public void UpdateProductByPrice(decimal price ,decimal change)
+        public void UpdateProductNameByCategoryId(int categoryId, string change)
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "UPDATE products SET name = @change WHERE categoryId = @categoryid";
+                cmd.Parameters.AddWithValue("categoryId", categoryId);
+                cmd.Parameters.AddWithValue("change", change);
+                cmd.ExecuteNonQuery();
+            }
+        }
+        public void UpdateProductPriceByPrice(decimal price ,decimal change)
         {
             if (reader.DoesSaleByPriceExist(price))
             {
-                UpdateSaleByPrice(price, change);
+                UpdateSalePriceByPrice(price, change);
             }
             MySqlConnection conn = new MySqlConnection(ConnStr);
 
@@ -86,8 +102,27 @@ namespace BestBuyCorporate
                 cmd.ExecuteNonQuery();
             }
         }
+        public void UpdateProductPriceByName(string name, decimal change)
+        {
+            if (reader.DoesSaleByProdIdExist(reader.GetProductID(name)))
+            {
+                UpdateSaleByPriceProductId(reader.GetProductID(name), change);
+            }
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "UPDATE products price = @change WHERE name = @name";
+                cmd.Parameters.AddWithValue("name", name);
+                cmd.Parameters.AddWithValue("change", change);
+                cmd.ExecuteNonQuery();
+            }
+        }
                                
-        public void UpdateSaleByPrice(decimal price, decimal change)
+        public void UpdateSalePriceByPrice(decimal price, decimal change)
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);
 
@@ -98,6 +133,21 @@ namespace BestBuyCorporate
                 MySqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = "UPDATE sales SET price = @change WHERE price = @price";
                 cmd.Parameters.AddWithValue("price", price);
+                cmd.Parameters.AddWithValue("change", change);
+                cmd.ExecuteNonQuery();
+            }
+        }
+        public void UpdateSaleByPriceProductId(int prodid, decimal change)
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "UPDATE sales SET price = @change WHERE prodid = @prodid";
+                cmd.Parameters.AddWithValue("prodid", prodid);
                 cmd.Parameters.AddWithValue("change", change);
                 cmd.ExecuteNonQuery();
             }

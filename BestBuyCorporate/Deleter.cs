@@ -8,7 +8,7 @@ namespace BestBuyCorporate
     class Deleter
     {
         public string ConnStr { get; private set; }
-        public Reader reader = new Reader();
+        public static Reader reader = new Reader();
 
         public Deleter()
         {
