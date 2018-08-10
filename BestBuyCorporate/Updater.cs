@@ -68,7 +68,7 @@ namespace BestBuyCorporate
                 cmd.ExecuteNonQuery();
             }
         }
-        public void UpdateProductNameByCategoryId(int categoryId, string change)
+        public void UpdateProductNameById(int prodid, string change)
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);
 
@@ -77,8 +77,8 @@ namespace BestBuyCorporate
                 conn.Open();
 
                 MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "UPDATE products SET name = @change WHERE categoryId = @categoryid";
-                cmd.Parameters.AddWithValue("categoryId", categoryId);
+                cmd.CommandText = "UPDATE products SET name = @change WHERE productid = @prodid";
+                cmd.Parameters.AddWithValue("prodid", prodid);
                 cmd.Parameters.AddWithValue("change", change);
                 cmd.ExecuteNonQuery();
             }

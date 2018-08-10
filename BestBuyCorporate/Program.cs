@@ -295,7 +295,7 @@ namespace BestBuyCorporate
                 }
                 else if (Lawyer.GetYesNo("Do you want to update something about a product?"))
                 {
-                    if(Lawyer.GetYesNo("Do you want to update a product's name using it's name?"))
+                    if(Lawyer.GetYesNo("Do you want to update a product's name using its name?"))
                     {
                         string currentName = Lawyer.GetResponse("What is the name of the product you want to rename?");
                         while (!(reader.DoesProductNameExist(currentName)))
@@ -312,6 +312,26 @@ namespace BestBuyCorporate
                         if(Lawyer.GetYesNo("Are you sure you want to change " + currentName + " to be changed to " + newName + "?"))
                         {
                             updater.UpdateProductNameByName(currentName, newName);
+                        }
+                    }
+                    else if(Lawyer.GetYesNo("Do you want to update a product's name using its product id?"))
+                    {
+                        int productid = Lawyer.GetInt("What is the product id of the product whose name you want to change?");
+                        while (!(reader.DoesProductIdExist(productid)))
+                        {
+                            Console.WriteLine("Sorry but that product id is invalid, try again.");
+                            productid = Lawyer.GetInt("What is the product id of the product whose name you want to change?");
+                        }
+                        string currentname = reader.GetProductName(productid);
+                        string newName = Lawyer.GetResponse("What do you want to rename " + currentname + " to be?");
+                        while (reader.DoesProductNameExist(newName))
+                        {
+                            Console.WriteLine("Sorry but that product name already exist, try again?");
+                            newName = Lawyer.GetResponse("What do you want to rename " + currentname + " to be?");
+                        }
+                        if(Lawyer.GetYesNo("Are you sure you want to change " + currentname + " to be " + newName + "?"))
+                        {
+                            updater.UpdateProductNameById(productid, newName);
                         }
                     }
                 }
