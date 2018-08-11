@@ -28,9 +28,9 @@ namespace BestBuyCorporate
 
             Updater updater = new Updater(connStr);
             List<Category> categories = reader.ReadCategories();
-            foreach(var thing in categories)
+            foreach(var category in categories)
             {
-                Console.WriteLine(thing);
+                Console.WriteLine("Category Id: " + category.CategoryId + " Name: " + category.Name);
 
             }
             do
