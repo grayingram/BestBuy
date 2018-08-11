@@ -113,7 +113,7 @@ namespace BestBuyCorporate
                 return Product;
             }
         }
-        
+                
         public int GetProductIDFromCatID(string categoryid)
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);
@@ -477,5 +477,31 @@ namespace BestBuyCorporate
             }
         }
 
+        public bool IsProductPriceSamePrice(string product, decimal newPrice)
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT Count(p.ProductID) AS result FROM products p WHERE price = @price AND name = @product;";
+                cmd.Parameters.AddWithValue("price", newPrice);
+                cmd.Parameters.AddWithValue("product", product);
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+                dr.Read();
+                int count = int.Parse(dr[0].ToString());
+                if (count == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
     }
 }

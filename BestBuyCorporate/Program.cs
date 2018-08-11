@@ -334,7 +334,7 @@ namespace BestBuyCorporate
                             updater.UpdateProductNameById(productid, newName);
                         }
                     }
-                    else if(Lawyer.GetYesNo("Do you want to update products price knowing their price?"))
+                    else if(Lawyer.GetYesNo("Do you want to update products with a certain price?"))
                     {
                         decimal currentprice = Lawyer.GetDecimal("What is the price of products you want to change?");
                         while (!(reader.DoesProductPriceExist(currentprice)))
@@ -346,6 +346,25 @@ namespace BestBuyCorporate
                         if(Lawyer.GetYesNo("Are you sure you want to change all products of price $" + currentprice + " to be changed to " + newPrice + "?"))
                         {
                             updater.UpdateProductPriceByPrice(currentprice, newPrice);
+                        }
+                    }
+                    else if(Lawyer.GetYesNo("Do you want to update a product's price knowing the product name?"))
+                    {
+                        string product = Lawyer.GetResponse("What is the name of the product whose price you want to change?");
+                        while (!(reader.DoesProductNameExist(product)))
+                        {
+                            Console.WriteLine("Sorry but there is no product with that name, try again.");
+                            product = Lawyer.GetResponse("What is the name of the product whose price you want to change?");
+                        }
+                        decimal newPrice = Lawyer.GetDecimal("What price do you want to change " + product + " to be?");
+                        while(reader.IsProductPriceSamePrice(product, newPrice))
+                        {
+                            Console.WriteLine("Sorry but that product is already that price, try again.");
+                            newPrice = Lawyer.GetDecimal("What price do you want to change " + product + " to be?");
+                        }
+                        if(Lawyer.GetYesNo("Are you sure you want to change the price of " + product + " to be " + newPrice + "?"))
+                        {
+                            updater.UpdateProductPriceByName(product, newPrice);
                         }
                     }
                 }

@@ -87,7 +87,7 @@ namespace BestBuyCorporate
         {
             if (reader.DoesSaleByPriceExist(price))
             {
-                UpdateSalePriceByPrice(price, change);
+                updateSalePriceByPrice(price, change);
             }
             MySqlConnection conn = new MySqlConnection(ConnStr);
 
@@ -106,7 +106,7 @@ namespace BestBuyCorporate
         {
             if (reader.DoesSaleByProdIdExist(reader.GetProductID(name)))
             {
-                UpdateSaleByPriceProductId(reader.GetProductID(name), change);
+                updateSaleByPriceProductId(reader.GetProductID(name), change);
             }
             MySqlConnection conn = new MySqlConnection(ConnStr);
 
@@ -122,7 +122,7 @@ namespace BestBuyCorporate
             }
         }
                                
-        public void UpdateSalePriceByPrice(decimal price, decimal change)
+        private void updateSalePriceByPrice(decimal price, decimal change)
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);
 
@@ -137,7 +137,7 @@ namespace BestBuyCorporate
                 cmd.ExecuteNonQuery();
             }
         }
-        public void UpdateSaleByPriceProductId(int prodid, decimal change)
+        private void updateSaleByPriceProductId(int prodid, decimal change)
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);
 
@@ -152,8 +152,8 @@ namespace BestBuyCorporate
                 cmd.ExecuteNonQuery();
             }
         }
-        
-        
-        
+
+
+
     }
 }
