@@ -113,7 +113,7 @@ namespace BestBuyCorporate
                 }
             } while (Lawyer.GetYesNo("Do you want to delete more records?"));
         }
-        public static void DeleteCategory(Deleter deleter, Reader reader)
+        private static void DeleteCategory(Deleter deleter, Reader reader)
         {
             if (Lawyer.GetYesNo("Do you want to delete a category by CategoryID"))
             {
@@ -144,7 +144,7 @@ namespace BestBuyCorporate
                 }
             }
         }
-        public static void DeleteProduct(Deleter deleter, Reader reader)
+        private static void DeleteProduct(Deleter deleter, Reader reader)
         {
             if (Lawyer.GetYesNo("Do you want to delete a product by Product Id?"))
             {
@@ -206,7 +206,7 @@ namespace BestBuyCorporate
                 }
             }
         }
-        public static void DeleteSale(Deleter deleter, Reader reader)
+        private static void DeleteSale(Deleter deleter, Reader reader)
         {
             if (Lawyer.GetYesNo("Do you want to delete a sale by Sale Id?"))
             {
@@ -295,82 +295,11 @@ namespace BestBuyCorporate
                 }
                 else if (Lawyer.GetYesNo("Do you want to update something about a product?"))
                 {
-                    if(Lawyer.GetYesNo("Do you want to update a product's name using its name?"))
-                    {
-                        string currentName = Lawyer.GetResponse("What is the name of the product you want to rename?");
-                        while (!(reader.DoesProductNameExist(currentName)))
-                        {
-                            Console.WriteLine("Sorry but that product does not exist, try again.");
-                            currentName = Lawyer.GetResponse("What is the name of the product you want to rename?");
-                        }
-                        string newName = Lawyer.GetResponse("What do you want to rename this product?");
-                        while (reader.DoesProductNameExist(newName))
-                        {
-                            Console.WriteLine("Sorry but that product already exist, try again.");
-                            newName = Lawyer.GetResponse("What do you want to rename this product?");
-                        }
-                        if(Lawyer.GetYesNo("Are you sure you want to change " + currentName + " to be changed to " + newName + "?"))
-                        {
-                            updater.UpdateProductNameByName(currentName, newName);
-                        }
-                    }
-                    else if(Lawyer.GetYesNo("Do you want to update a product's name using its product id?"))
-                    {
-                        int productid = Lawyer.GetInt("What is the product id of the product whose name you want to change?");
-                        while (!(reader.DoesProductIdExist(productid)))
-                        {
-                            Console.WriteLine("Sorry but that product id is invalid, try again.");
-                            productid = Lawyer.GetInt("What is the product id of the product whose name you want to change?");
-                        }
-                        string currentname = reader.GetProductName(productid);
-                        string newName = Lawyer.GetResponse("What do you want to rename " + currentname + " to be?");
-                        while (reader.DoesProductNameExist(newName))
-                        {
-                            Console.WriteLine("Sorry but that product name already exist, try again?");
-                            newName = Lawyer.GetResponse("What do you want to rename " + currentname + " to be?");
-                        }
-                        if(Lawyer.GetYesNo("Are you sure you want to change " + currentname + " to be " + newName + "?"))
-                        {
-                            updater.UpdateProductNameById(productid, newName);
-                        }
-                    }
-                    else if(Lawyer.GetYesNo("Do you want to update products with a certain price?"))
-                    {
-                        decimal currentprice = Lawyer.GetDecimal("What is the price of products you want to change?");
-                        while (!(reader.DoesProductPriceExist(currentprice)))
-                        {
-                            Console.WriteLine("There are no products with that price, try again?");
-                            currentprice = Lawyer.GetDecimal("What is the price of products you want to change?");
-                        }
-                        decimal newPrice = Lawyer.GetDecimal("What price would you like to change the products to be?");
-                        if(Lawyer.GetYesNo("Are you sure you want to change all products of price $" + currentprice + " to be changed to " + newPrice + "?"))
-                        {
-                            updater.UpdateProductPriceByPrice(currentprice, newPrice);
-                        }
-                    }
-                    else if(Lawyer.GetYesNo("Do you want to update a product's price knowing the product name?"))
-                    {
-                        string product = Lawyer.GetResponse("What is the name of the product whose price you want to change?");
-                        while (!(reader.DoesProductNameExist(product)))
-                        {
-                            Console.WriteLine("Sorry but there is no product with that name, try again.");
-                            product = Lawyer.GetResponse("What is the name of the product whose price you want to change?");
-                        }
-                        decimal newPrice = Lawyer.GetDecimal("What price do you want to change " + product + " to be?");
-                        while(reader.IsProductPriceSamePrice(product, newPrice))
-                        {
-                            Console.WriteLine("Sorry but that product is already that price, try again.");
-                            newPrice = Lawyer.GetDecimal("What price do you want to change " + product + " to be?");
-                        }
-                        if(Lawyer.GetYesNo("Are you sure you want to change the price of " + product + " to be " + newPrice + "?"))
-                        {
-                            updater.UpdateProductPriceByName(product, newPrice);
-                        }
-                    }
+                    UpdateProduct(updater, reader);
                 }
             } while (Lawyer.GetYesNo("Do you want to update more records?"));
         }
-        public static void UpdateCategory(Updater updater, Reader reader)
+        private static void UpdateCategory(Updater updater, Reader reader)
         {
             if (Lawyer.GetYesNo("Do you want to update a category name using its name?"))
             {
@@ -423,6 +352,81 @@ namespace BestBuyCorporate
                 if(Lawyer.GetYesNo("Are you sure you want to change products with price " + productPrice + " to be " + newPrice + "?"))
                 {
                     updater.UpdateProductPriceByPrice(productPrice, newPrice);
+                }
+            }
+        }
+        private static void UpdateProduct(Updater updater, Reader reader)
+        {
+            if (Lawyer.GetYesNo("Do you want to update a product's name using its name?"))
+            {
+                string currentName = Lawyer.GetResponse("What is the name of the product you want to rename?");
+                while (!(reader.DoesProductNameExist(currentName)))
+                {
+                    Console.WriteLine("Sorry but that product does not exist, try again.");
+                    currentName = Lawyer.GetResponse("What is the name of the product you want to rename?");
+                }
+                string newName = Lawyer.GetResponse("What do you want to rename this product?");
+                while (reader.DoesProductNameExist(newName))
+                {
+                    Console.WriteLine("Sorry but that product already exist, try again.");
+                    newName = Lawyer.GetResponse("What do you want to rename this product?");
+                }
+                if (Lawyer.GetYesNo("Are you sure you want to change " + currentName + " to be changed to " + newName + "?"))
+                {
+                    updater.UpdateProductNameByName(currentName, newName);
+                }
+            }
+            else if (Lawyer.GetYesNo("Do you want to update a product's name using its product id?"))
+            {
+                int productid = Lawyer.GetInt("What is the product id of the product whose name you want to change?");
+                while (!(reader.DoesProductIdExist(productid)))
+                {
+                    Console.WriteLine("Sorry but that product id is invalid, try again.");
+                    productid = Lawyer.GetInt("What is the product id of the product whose name you want to change?");
+                }
+                string currentname = reader.GetProductName(productid);
+                string newName = Lawyer.GetResponse("What do you want to rename " + currentname + " to be?");
+                while (reader.DoesProductNameExist(newName))
+                {
+                    Console.WriteLine("Sorry but that product name already exist, try again?");
+                    newName = Lawyer.GetResponse("What do you want to rename " + currentname + " to be?");
+                }
+                if (Lawyer.GetYesNo("Are you sure you want to change " + currentname + " to be " + newName + "?"))
+                {
+                    updater.UpdateProductNameById(productid, newName);
+                }
+            }
+            else if (Lawyer.GetYesNo("Do you want to update products with a certain price?"))
+            {
+                decimal currentprice = Lawyer.GetDecimal("What is the price of products you want to change?");
+                while (!(reader.DoesProductPriceExist(currentprice)))
+                {
+                    Console.WriteLine("There are no products with that price, try again?");
+                    currentprice = Lawyer.GetDecimal("What is the price of products you want to change?");
+                }
+                decimal newPrice = Lawyer.GetDecimal("What price would you like to change the products to be?");
+                if (Lawyer.GetYesNo("Are you sure you want to change all products of price $" + currentprice + " to be changed to " + newPrice + "?"))
+                {
+                    updater.UpdateProductPriceByPrice(currentprice, newPrice);
+                }
+            }
+            else if (Lawyer.GetYesNo("Do you want to update a product's price knowing the product name?"))
+            {
+                string product = Lawyer.GetResponse("What is the name of the product whose price you want to change?");
+                while (!(reader.DoesProductNameExist(product)))
+                {
+                    Console.WriteLine("Sorry but there is no product with that name, try again.");
+                    product = Lawyer.GetResponse("What is the name of the product whose price you want to change?");
+                }
+                decimal newPrice = Lawyer.GetDecimal("What price do you want to change " + product + " to be?");
+                while (reader.IsProductPriceSamePrice(product, newPrice))
+                {
+                    Console.WriteLine("Sorry but that product is already that price, try again.");
+                    newPrice = Lawyer.GetDecimal("What price do you want to change " + product + " to be?");
+                }
+                if (Lawyer.GetYesNo("Are you sure you want to change the price of " + product + " to be " + newPrice + "?"))
+                {
+                    updater.UpdateProductPriceByName(product, newPrice);
                 }
             }
         }
