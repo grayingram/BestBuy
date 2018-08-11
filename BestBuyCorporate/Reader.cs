@@ -22,6 +22,27 @@ namespace BestBuyCorporate
             ConnStr = connStr;
         }
 
+        public List<Category> ReadCategories()
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+            List<Category> categories = new List<Category>();
+            using (conn)
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT * FROM categories;";
+                
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    Category category = new Category(int.Parse(dr["CategoryID"].ToString()), dr["Name"].ToString());
+                    categories.Add(category);
+                }
+                return categories;
+            }
+        }
+
         public int GetCategoryID(string category)
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);

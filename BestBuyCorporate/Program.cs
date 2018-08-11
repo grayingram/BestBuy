@@ -27,23 +27,32 @@ namespace BestBuyCorporate
             Deleter deleter = new Deleter(connStr);
 
             Updater updater = new Updater(connStr);
-
-            if(Lawyer.GetYesNo("Would you like to create records?"))
+            List<Category> categories = reader.ReadCategories();
+            foreach(var thing in categories)
             {
-                Create(creator, reader);
-            }
+                Console.WriteLine(thing);
 
-            else if (Lawyer.GetYesNo("Would you like to delete records?"))
-            {
-                Delete(deleter, reader);
             }
+            do
+            {
+                if (Lawyer.GetYesNo("Would you like to create records?"))
+                {
+                    Create(creator, reader);
+                }
 
-            else if(Lawyer.GetYesNo("Would you like to update records?"))
-            {
-                Update(updater, reader);
-                
-            }
-            
+                else if (Lawyer.GetYesNo("Would you like to delete records?"))
+                {
+                    Delete(deleter, reader);
+                }
+
+                else if (Lawyer.GetYesNo("Would you like to update records?"))
+                {
+                    Update(updater, reader);
+
+                }
+            } while (Lawyer.GetYesNo("Do you want to alter anymore records?"));
+
+
             Console.ReadLine();           
         }
 
