@@ -1,9 +1,7 @@
-﻿using System;
-using System.IO;
-using Microsoft.Extensions.Configuration;
-using MySql.Data.MySqlClient;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
-using System.Text;
+using System.IO;
 namespace BestBuyCorporate
 
 {
@@ -96,6 +94,7 @@ namespace BestBuyCorporate
                 }
             } while (Lawyer.GetYesNo("Do you want to add more records?"));
         }
+
         public static void Delete(Deleter deleter, Reader reader)
         {
             do
@@ -285,6 +284,7 @@ namespace BestBuyCorporate
                 }
             }
         }
+
         public static void Update(Updater updater, Reader reader)
         {
             do
@@ -334,6 +334,20 @@ namespace BestBuyCorporate
                             updater.UpdateProductNameById(productid, newName);
                         }
                     }
+                    else if(Lawyer.GetYesNo("Do you want to update products price knowing their price?"))
+                    {
+                        decimal currentprice = Lawyer.GetDecimal("What is the price of products you want to change?");
+                        while (!(reader.DoesProductPriceExist(currentprice)))
+                        {
+                            Console.WriteLine("There are no products with that price, try again?");
+                            currentprice = Lawyer.GetDecimal("What is the price of products you want to change?");
+                        }
+                        decimal newPrice = Lawyer.GetDecimal("What price would you like to change the products to be?");
+                        if(Lawyer.GetYesNo("Are you sure you want to change all products of price $" + currentprice + " to be changed to " + newPrice + "?"))
+                        {
+                            updater.UpdateProductPriceByPrice(currentprice, newPrice);
+                        }
+                    }
                 }
             } while (Lawyer.GetYesNo("Do you want to update more records?"));
         }
@@ -376,6 +390,20 @@ namespace BestBuyCorporate
                 if (Lawyer.GetYesNo("Are you sure you want to rename the category: " + currentName + " to " + newName + "?"))
                 {
                     updater.UpdateCategoryById(catid, newName);
+                }
+            }
+            else if (Lawyer.GetYesNo("Do you want to update a product's price using its current price?"))
+            {
+                decimal productPrice = Lawyer.GetDecimal("What is the price fo products you want to change?");
+                while (!(reader.DoesProductPriceExist(productPrice)))
+                {
+                    Console.WriteLine("Sorry there is no products with that price, try again.");
+                    productPrice = Lawyer.GetDecimal("What is the price fo products you want to change?");
+                }
+                decimal newPrice = Lawyer.GetDecimal("What price would you like to change the products of price :" + productPrice + " to be?");
+                if(Lawyer.GetYesNo("Are you sure you want to change products with price " + productPrice + " to be " + newPrice + "?"))
+                {
+                    updater.UpdateProductPriceByPrice(productPrice, newPrice);
                 }
             }
         }

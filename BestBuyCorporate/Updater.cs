@@ -96,7 +96,7 @@ namespace BestBuyCorporate
                 conn.Open();
 
                 MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "UPDATE products price = @change WHERE price = @price";
+                cmd.CommandText = "UPDATE products SET price = @change WHERE price = @price";
                 cmd.Parameters.AddWithValue("price", price);
                 cmd.Parameters.AddWithValue("change", change);
                 cmd.ExecuteNonQuery();
@@ -115,7 +115,7 @@ namespace BestBuyCorporate
                 conn.Open();
 
                 MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "UPDATE products price = @change WHERE name = @name";
+                cmd.CommandText = "UPDATE products SET price = @change WHERE name = @name";
                 cmd.Parameters.AddWithValue("name", name);
                 cmd.Parameters.AddWithValue("change", change);
                 cmd.ExecuteNonQuery();
