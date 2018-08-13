@@ -11,7 +11,7 @@ namespace BestBuyCorporate
         public int Quantity { get; private set; }
         public decimal Price { get; private set; }
         public DateTime Date { get; private set; }
-
+        //comment
         public Sale(int saleid, int productid, int quantity, decimal price, DateTime date)
         {
             SaleId = saleid;
