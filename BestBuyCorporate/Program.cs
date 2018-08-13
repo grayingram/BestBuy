@@ -478,7 +478,6 @@ namespace BestBuyCorporate
                 {
                     break;
                 }
-                Console.Read();
             }
         }
         private static void ReadProduct(Reader reader)
@@ -490,7 +489,6 @@ namespace BestBuyCorporate
                 {
                     break;
                 }
-                Console.Read();
             }
         }
         private static void ReadSale(Reader reader)
@@ -502,7 +500,6 @@ namespace BestBuyCorporate
                 {
                     break;
                 }
-                Console.ReadLine();
             }
         }
     }
