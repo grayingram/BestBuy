@@ -53,10 +53,13 @@ namespace BestBuyCorporate
 
         public static void Create(Creator creator, Reader reader)
         {
+
             do
             {
+                ReadCategory(reader);
                 if (Lawyer.GetYesNo("Would you like to add a category to the merchandise to sell?"))
                 {
+                    
                     string category = Lawyer.GetResponse("What would you like to call this category to be added to the database?");
                     while (reader.DoesCategoryNameExist(category))
                     {
@@ -105,14 +108,17 @@ namespace BestBuyCorporate
             {
                 if (Lawyer.GetYesNo("Do you want to delete a category?"))
                 {
+                    ReadCategory(reader);
                     DeleteCategory(deleter, reader);
                 }
                 else if (Lawyer.GetYesNo("Do you want to delete a product?"))
                 {
+                    ReadProduct(reader);
                     DeleteProduct(deleter, reader);
                 }
                 else if (Lawyer.GetYesNo("Do you want to delete a sale?"))
                 {
+                    ReadSale(reader);
                     DeleteSale(deleter, reader);
                 }
             } while (Lawyer.GetYesNo("Do you want to delete more records?"));
@@ -293,12 +299,15 @@ namespace BestBuyCorporate
         {
             do
             {
+
                 if (Lawyer.GetYesNo("Do you want to update a category name?"))
                 {
+                    ReadCategory(reader);
                     UpdateCategory(updater, reader);
                 }
                 else if (Lawyer.GetYesNo("Do you want to update something about a product?"))
                 {
+                    ReadSale(reader);
                     UpdateProduct(updater, reader);
                 }
             } while (Lawyer.GetYesNo("Do you want to update more records?"));
@@ -432,6 +441,43 @@ namespace BestBuyCorporate
                 {
                     updater.UpdateProductPriceByName(product, newPrice);
                 }
+            }
+        }
+
+        private static void ReadCategory(Reader reader)
+        {
+            foreach(var category in reader.Categories)
+            {
+                Console.WriteLine("ID:" + category.CategoryId + " Name:" + category.Name);
+                if(!(Lawyer.GetYesNo("Do you want to see another category?")))
+                {
+                    break;
+                }
+                Console.Read();
+            }
+        }
+        private static void ReadProduct(Reader reader)
+        {
+            foreach(var product in reader.Products)
+            {
+                Console.WriteLine("ID:" + product.ProductId + " Name:" + product.Name + " CategoryID:" + product.CategoryId + " Price:" + product.Price);
+                if(!(Lawyer.GetYesNo("Do you want to see another product?")))
+                {
+                    break;
+                }
+                Console.Read();
+            }
+        }
+        private static void ReadSale(Reader reader)
+        {
+            foreach(var sale in reader.Sales)
+            {
+                Console.Write("SaleID:" + sale.SaleId + " ProductID:" + sale.ProductId + " Quantity:" + sale.Quantity + " Price:" + sale.Price + " Date:" + sale.Date);
+                if(!(Lawyer.GetYesNo("Do you want see another sale?")))
+                {
+                    break;
+                }
+                Console.ReadLine();
             }
         }
     }

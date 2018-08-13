@@ -18,10 +18,10 @@ namespace BestBuyCorporate
 
         public Reader(string connStr)
         {
+            ConnStr = connStr;
             Categories = ReadCategories();
             Sales = ReadSales();
             Products = ReadProducts();
-            ConnStr = connStr;
         }
         public void SetConnStr(string connStr)
         {
