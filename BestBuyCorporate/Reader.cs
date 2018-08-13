@@ -12,9 +12,15 @@ namespace BestBuyCorporate
         {
             ConnStr = "";
         }
+        public List<Category> Categories { get; private set; }
+        public List<Product> Products { get; private set; }
+        public List<Sale> Sales { get; private set; }
 
         public Reader(string connStr)
         {
+            Categories = ReadCategories();
+            Sales = ReadSales();
+            Products = ReadProducts();
             ConnStr = connStr;
         }
         public void SetConnStr(string connStr)
@@ -62,7 +68,26 @@ namespace BestBuyCorporate
                 return products;
             }
         }
+        public List<Sale> ReadSales()
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+            List<Sale> sales = new List<Sale>();
+            using (conn)
+            {
+                conn.Open();
 
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT * FROM sales;";
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    Sale sale = new Sale(int.Parse(dr["SalesID"].ToString()), int.Parse(dr["ProductID"].ToString()), int.Parse(dr["Quantity"].ToString()), decimal.Parse(dr["Price"].ToString()), DateTime.Parse(dr["Date"].ToString()));
+                    sales.Add(sale);
+                }
+                return sales;
+            }
+        }
         public int GetCategoryID(string category)
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);
