@@ -56,11 +56,13 @@ namespace BestBuyCorporate
 
             do
             {
-                ReadCategory(reader);
                 if (Lawyer.GetYesNo("Would you like to add a category to the merchandise to sell?"))
                 {
-                    
-                    string category = Lawyer.GetResponse("What would you like to call this category to be added to the database?");
+                    if (Lawyer.GetYesNo("Do you want to see all the existing categories?"))
+                    {
+                        ReadCategory(reader);
+                    }
+                        string category = Lawyer.GetResponse("What would you like to call this category to be added to the database?");
                     while (reader.DoesCategoryNameExist(category))
                     {
                         Console.WriteLine("Sorry that category already exist try again?");
@@ -69,8 +71,12 @@ namespace BestBuyCorporate
                     creator.AddCategory(category);
                 }
 
-                if (Lawyer.GetYesNo("Would you like to add a new product?"))
+                else if (Lawyer.GetYesNo("Would you like to add a new product?"))
                 {
+                    if(Lawyer.GetYesNo("Do you want to see all existing products?"))
+                    {
+                        ReadProduct(reader);
+                    }
                     string name = Lawyer.GetResponse("What is the name of the item to be added to the store?");
                     string category = Lawyer.GetResponse("What category do you want would this item be considered?");
                     while (!(reader.DoesCategoryNameExist(category)))
@@ -83,9 +89,13 @@ namespace BestBuyCorporate
                     creator.AddProduct(name, price, category);
                 }
 
-                if (Lawyer.GetYesNo("Would you like to add a sale?"))
+                else if (Lawyer.GetYesNo("Would you like to add a sale?"))
                 {
-                    string product = Lawyer.GetResponse("What is the name of the product that has been sold?");
+                    if (Lawyer.GetYesNo("Do you want to see all existing sales?"))
+                    {
+                        ReadSale(reader);
+                    }
+                        string product = Lawyer.GetResponse("What is the name of the product that has been sold?");
                     while (!(reader.DoesProductNameExist(product)))
                     {
                         Console.WriteLine("That product does not exist, please enter a valid product.");
@@ -108,17 +118,26 @@ namespace BestBuyCorporate
             {
                 if (Lawyer.GetYesNo("Do you want to delete a category?"))
                 {
-                    ReadCategory(reader);
+                    if (Lawyer.GetYesNo("Do you want to see all the existing categories?"))
+                    {
+                        ReadCategory(reader);
+                    }
                     DeleteCategory(deleter, reader);
                 }
                 else if (Lawyer.GetYesNo("Do you want to delete a product?"))
                 {
-                    ReadProduct(reader);
+                    if (Lawyer.GetYesNo("Do you want to see all existing products?"))
+                    {
+                        ReadProduct(reader);
+                    }
                     DeleteProduct(deleter, reader);
                 }
                 else if (Lawyer.GetYesNo("Do you want to delete a sale?"))
                 {
-                    ReadSale(reader);
+                    if (Lawyer.GetYesNo("Do you want to see all existing sales?"))
+                    {
+                        ReadSale(reader);
+                    }
                     DeleteSale(deleter, reader);
                 }
             } while (Lawyer.GetYesNo("Do you want to delete more records?"));
@@ -302,12 +321,18 @@ namespace BestBuyCorporate
 
                 if (Lawyer.GetYesNo("Do you want to update a category name?"))
                 {
-                    ReadCategory(reader);
+                    if (Lawyer.GetYesNo("Do you want to see all the existing categories?"))
+                    {
+                        ReadCategory(reader);
+                    }
                     UpdateCategory(updater, reader);
                 }
                 else if (Lawyer.GetYesNo("Do you want to update something about a product?"))
                 {
-                    ReadSale(reader);
+                    if (Lawyer.GetYesNo("Do you want to see all existing products?"))
+                    {
+                        ReadSale(reader);
+                    }
                     UpdateProduct(updater, reader);
                 }
             } while (Lawyer.GetYesNo("Do you want to update more records?"));
